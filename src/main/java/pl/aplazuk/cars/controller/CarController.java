@@ -5,6 +5,7 @@ import com.github.fge.jsonpatch.JsonPatch;
 import com.github.fge.jsonpatch.JsonPatchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.aplazuk.cars.model.Car;
@@ -24,19 +25,24 @@ public class CarController {
         this.carService = carService;
     }
 
-    @GetMapping
+    @GetMapping(produces = {MediaType.APPLICATION_XML_VALUE,
+                            MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<List<Car>> getAllCars() {
         List<Car> allCars = carService.getAllCars();
         return new ResponseEntity<>(allCars, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(path = "/{id}",
+            produces = {MediaType.APPLICATION_XML_VALUE,
+                        MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Car> getCarById(@PathVariable long id) {
         Optional<Car> carById = carService.getCarById(id);
         return ResponseEntity.of(carById);
     }
 
-    @GetMapping("/color/{color}")
+    @GetMapping(path = "/color/{color}",
+            produces = {MediaType.APPLICATION_XML_VALUE,
+                        MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<List<Car>> getCarsByColor(@PathVariable String color) {
         List<Car> carsByColor = carService.getCarsByColor(color);
 
@@ -46,7 +52,8 @@ public class CarController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping
+    @PostMapping(produces = {MediaType.APPLICATION_XML_VALUE,
+                             MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> addCar(@RequestBody Car car) {
         boolean addCar = carService.addCar(car);
 
@@ -56,14 +63,17 @@ public class CarController {
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @PutMapping
+    @PutMapping(produces = {MediaType.APPLICATION_XML_VALUE,
+                            MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> modCar(@RequestBody Car car) {
         boolean modCar = carService.modCar(car);
 
         return modCar ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PatchMapping(path = "/{id}", consumes = "application/json-patch+json")
+    @PatchMapping(path = "/{id}", consumes = "application/json-patch+json",
+            produces = {MediaType.APPLICATION_XML_VALUE,
+                        MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> modCarById(@PathVariable long id, @RequestBody JsonPatch car) {
         boolean modCarById = carService.modCarById(id, car);
 
@@ -73,7 +83,9 @@ public class CarController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping(path = "/{id}",
+            produces = {MediaType.APPLICATION_XML_VALUE,
+                        MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> removeCar(@PathVariable long id) {
         boolean removeCar = carService.removeCarById(id);
 
