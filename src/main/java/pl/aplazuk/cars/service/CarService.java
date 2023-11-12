@@ -52,23 +52,26 @@ public class CarService {
         return false;
     }
 
-    public boolean modCarById(long id, JsonPatch patch) {
+    public Car modCarById(long id, JsonPatch patch) {
         Optional<Car> carById = getCarById(id);
 
         try {
             if (carById.isPresent()) {
-                applyPatchToCar(patch, carById.get());
-                return true;
+               return applyPatchToCar(patch, carById.get());
             }
         } catch (JsonPatchException | JsonProcessingException e) {
-            return false;
+            return null;
         }
-        return false;
+        return null;
     }
 
-    public boolean removeCarById(long id) {
+    public Car removeCarById(long id) {
         Optional<Car> carById = getCarById(id);
-        return carById.map(car -> carList.remove(car)).orElse(false);
+        if (carById.isPresent()){
+            carList.remove(carById.get());
+            return carById.get();
+        }
+        return null;
     }
 
     private Car applyPatchToCar(JsonPatch patch, Car car) throws JsonPatchException, JsonProcessingException {
