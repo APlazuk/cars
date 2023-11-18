@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jsonpatch.JsonPatch;
 import com.github.fge.jsonpatch.JsonPatchException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import pl.aplazuk.cars.model.Car;
 
@@ -14,6 +15,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class CarService {
 
     private List<Car> carList;
@@ -60,7 +62,7 @@ public class CarService {
                return applyPatchToCar(patch, carById.get());
             }
         } catch (JsonPatchException | JsonProcessingException e) {
-            return null;
+            log.error("Car with id: {} cannot be modified", id);
         }
         return null;
     }

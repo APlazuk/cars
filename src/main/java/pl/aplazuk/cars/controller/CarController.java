@@ -62,7 +62,7 @@ public class CarController {
 
     @PostMapping(produces = {MediaType.APPLICATION_XML_VALUE,
             MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> addCar(@RequestBody Car car) {
+    public ResponseEntity<EntityModel<Car>> addCar(@RequestBody Car car) {
         boolean addCar = carService.addCar(car);
         Link link = linkTo(CarController.class).withSelfRel();
 
@@ -72,7 +72,7 @@ public class CarController {
 
     @PutMapping(produces = {MediaType.APPLICATION_XML_VALUE,
             MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> modCar(@RequestBody Car car) {
+    public ResponseEntity<EntityModel<Car>> modCar(@RequestBody Car car) {
         boolean modCar = carService.modCar(car);
         Link link = linkTo(CarController.class).withSelfRel();
 
@@ -83,7 +83,7 @@ public class CarController {
     @PatchMapping(path = "/{id}", consumes = "application/json-patch+json",
             produces = {MediaType.APPLICATION_XML_VALUE,
                     MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> modCarById(@PathVariable long id, @RequestBody JsonPatch car) {
+    public ResponseEntity<EntityModel<Car>> modCarById(@PathVariable long id, @RequestBody JsonPatch car) {
         Car modCarById = carService.modCarById(id, car);
         Link link = linkTo(CarController.class).slash(id).withSelfRel();
 
@@ -95,7 +95,7 @@ public class CarController {
     @DeleteMapping(path = "/{id}",
             produces = {MediaType.APPLICATION_XML_VALUE,
                     MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> removeCar(@PathVariable long id) {
+    public ResponseEntity<EntityModel<Car>> removeCar(@PathVariable long id) {
         Car removedCar = carService.removeCarById(id);
         Link link = linkTo(CarController.class).slash(id).withSelfRel();
 
