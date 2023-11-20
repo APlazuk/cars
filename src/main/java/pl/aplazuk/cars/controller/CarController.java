@@ -18,6 +18,7 @@ import java.util.Optional;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/cars")
 public class CarController {
 

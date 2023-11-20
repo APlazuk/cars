@@ -89,6 +89,26 @@
                     </excludes>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-maven-plugin</artifactId>
+                <version>1.1</version>
+                <executions>
+                    <execution>
+                        <id>integration-test</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <apiDocsUrl>http://localhost:8080/v3/api-docs.yaml</apiDocsUrl>
+                    <outputFileName>car-service.yaml</outputFileName>
+                    <outputDir>${project.build.directory}/conf/openapi</outputDir>
+                    <skip>false</skip>
+                    <hateoas>true</hateoas>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
